@@ -8,10 +8,8 @@ public class Task {
     protected String description;
     protected Status status;
 
-    private static int counter = 1;
-
-    public Task(String title, String description, Status status) {
-        this.id = counter++;
+    public Task(String title, String description) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
@@ -51,12 +49,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                '}';
+        return  "Task - id " + id + "\n" +
+                "title - " + title + "\n" +
+                "description - " + description + "\n" +
+                "status - " + status + "\n";
     }
 
     @Override

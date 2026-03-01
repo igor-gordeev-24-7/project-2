@@ -7,6 +7,8 @@ import org.example.model.Task;
 import java.util.List;
 
 public interface TaskManager {
+    List<Task> getHistory();
+
 //    task
     List<Task> getTasks();
     void deleteAllTasks();
@@ -25,7 +27,7 @@ public interface TaskManager {
     List<Subtask> getSubtask();
     void deleteAllSubtask();
     Subtask getSubtaskById(int id);
-    void addSubtask(Subtask subtask);
-    void editSubtask(Subtask subtask);
+    void addSubtask(Subtask subtask, int epicId);
+    void editSubtask(Subtask subtask, int id);
     void deleteSubtaskById(int id);
 }
