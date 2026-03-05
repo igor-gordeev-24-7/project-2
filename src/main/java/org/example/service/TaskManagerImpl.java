@@ -198,7 +198,8 @@ public class TaskManagerImpl implements TaskManager {
     }
 
     @Override
-    public void editSubtask(Subtask subtask, int epicId) {
+    public void editSubtask(Subtask subtask) {
+        int epicId = subtask.getEpicId();
         Subtask editindSubtask = subtasks.get(subtask.getId());
         if (editindSubtask == null) {
             throw new TaskNotFoundException(subtask.getId());

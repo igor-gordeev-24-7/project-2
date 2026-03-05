@@ -28,6 +28,6 @@ public interface TaskManager {
     void deleteAllSubtask();
     Subtask getSubtaskById(int id);
     void addSubtask(Subtask subtask, int epicId);
-    void editSubtask(Subtask subtask, int id);
+    void editSubtask(Subtask subtask);
     void deleteSubtaskById(int id);
 }

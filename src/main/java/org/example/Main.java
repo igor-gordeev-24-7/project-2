@@ -65,12 +65,12 @@ public class Main {
         manager1.addSubtask(subtask2, 1);
 //        System.out.println(epic1.toString());
 
-        subtask1.setStatus(Status.DONE);
-        manager1.editTask(subtask1);
+        subtask1.setStatus(Status.NEW);
+        manager1.editSubtask(subtask1);
         System.out.println(manager1.getSubtaskById(1).toString());
 
         subtask2.setStatus(Status.DONE);
-        manager1.editTask(subtask2);
+        manager1.editSubtask(subtask2);
         System.out.println(manager1.getSubtaskById(2).toString());
 
         System.out.println("---------------");
