@@ -7,19 +7,14 @@ import org.example.model.Status;
 import org.example.model.Subtask;
 import org.example.model.Task;
 import org.example.utils.Identify;
-import org.example.utils.SearchHistory;
+import org.example.utils.HistoryManager;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class TaskManagerImpl implements TaskManager {
-    private List<Task> historyOfTasksRequest = new ArrayList<>();
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
-
-
-
 
     //    Task
     @Override
@@ -43,7 +38,7 @@ public class TaskManagerImpl implements TaskManager {
         if (task == null) {
             throw new TaskNotFoundException(id);
         }
-        SearchHistory.HISTORY.addToHistory(task);
+        HistoryManager.HISTORY.addToHistory(task);
         return task;
     }
 
