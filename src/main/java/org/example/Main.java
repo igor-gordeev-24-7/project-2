@@ -58,7 +58,7 @@ public class Main {
         manager1.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("ПодЗадача-1", "Описание ПодЗадачи 1");
-        Subtask subtask2 = new Subtask("ПодЗадача-1", "Описание ПодЗадачи 2");
+        Subtask subtask2 = new Subtask("ПодЗадача-2", "Описание ПодЗадачи 2");
 
 //        System.out.println(manager1.getEpic());
 
@@ -75,11 +75,20 @@ public class Main {
         System.out.println(manager1.getSubtaskById(2).toString());
 
         System.out.println("---------------");
-        System.out.println("Вывод в финале");
-        System.out.println(epic1.toString());
+//        System.out.println(HistoryManager.HISTORY.getHistoryAsString());
         System.out.println("---------------");
 
-        System.out.println(HistoryManager.HISTORY.getHistory());
 
+        System.out.println("---------------");
+        System.out.println(HistoryManager.HISTORY.getHistoryAsString());
+        System.out.println("---------------");
+
+        manager1.deleteEpicById(1);
+//        manager1.deleteSubtaskById(1);
+//        manager1.deleteSubtaskById(2);
+
+        System.out.println("---------------");
+        System.out.println(HistoryManager.HISTORY.getHistoryAsString());
+        System.out.println("---------------");
     }
 }
