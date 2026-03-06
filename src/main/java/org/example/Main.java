@@ -5,6 +5,7 @@ import org.example.model.Status;
 import org.example.model.Subtask;
 import org.example.model.Task;
 import org.example.service.TaskManagerImpl;
+import org.example.utils.HistoryManager;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -77,6 +78,8 @@ public class Main {
         System.out.println("Вывод в финале");
         System.out.println(epic1.toString());
         System.out.println("---------------");
+
+        System.out.println(HistoryManager.HISTORY.getHistory());
 
     }
 }
