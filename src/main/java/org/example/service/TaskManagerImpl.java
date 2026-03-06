@@ -128,12 +128,16 @@ public class TaskManagerImpl implements TaskManager {
 
     @Override
     public void deleteEpicById(int id) {
-        Epic epic = epics.remove(id);
+        Epic epic = epics.get(id);
+        System.out.println("Получен epic " + epic + "\n");
         if (epic != null) {
             List<Integer> subtasksForDel = epic.getSubtasksId();
             for (Integer subtaskId : subtasksForDel) {
-                subtasks.remove(subtaskId);
+                deleteSubtaskById(subtaskId);
             }
+            epics.remove(id);
+            HistoryManager.HISTORY.remove(epic);
+            System.out.println("Удален epic " + epic);
         }
     }
 
@@ -150,6 +154,7 @@ public class TaskManagerImpl implements TaskManager {
 
     @Override
     public Subtask getSubtaskById(int id) {
+        HistoryManager.HISTORY.add(subtasks.get(id));
         return subtasks.get(id);
     }
 
@@ -189,13 +194,15 @@ public class TaskManagerImpl implements TaskManager {
 
     @Override
     public void deleteSubtaskById(int id) {
-        Subtask subtask = subtasks.remove(id);
+        Subtask subtask = getSubtaskById(id);
         if (subtask != null) {
             Epic epic = getEpicById(subtask.getEpicId());
-            if (epic != null) {
-                epic.deleteSubtaskId(id);
-                updateStatusEpic(epic.getId());
-            }
+            HistoryManager.HISTORY.remove(subtask);
+            epic.deleteSubtaskId(id);
+
+            updateStatusEpic(epic.getId());
+
+            subtasks.remove(id);
         }
     }
 }
