@@ -38,7 +38,7 @@ public class TaskManagerImpl implements TaskManager {
         if (task == null) {
             throw new TaskNotFoundException(id);
         }
-        HistoryManager.HISTORY.addToHistory(task);
+        HistoryManager.HISTORY.add(task);
         return task;
     }
 
@@ -110,6 +110,7 @@ public class TaskManagerImpl implements TaskManager {
 
     @Override
     public Epic getEpicById(int id) {
+        HistoryManager.HISTORY.add(epics.get(id));
         return epics.get(id);
     }
 
