@@ -6,7 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryHistoryManager {
+    private static InMemoryHistoryManager instance;
     private final List<Task> history = new ArrayList<>();
+
+    public InMemoryHistoryManager() {
+    }
+
+    public static InMemoryHistoryManager getInstance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            instance = new InMemoryHistoryManager();
+            return instance;
+        }
+    }
 
     public void addToHistory(Task task) {
         history.add(task);
@@ -16,12 +29,19 @@ public class InMemoryHistoryManager {
         history.remove(task);
     }
 
-    public void getHistory() {
-        System.out.println("История поиска: " + "\n");
-        for (Task historyItem : history) {
-            System.out.println("Тип -" + historyItem.getClass().getSimpleName() + "\n");
-            System.out.println("Id - " + historyItem.getId() + "\n");
-            System.out.println("Title - " + historyItem.getTitle() + "\n");
+    public String getHistory() {
+        if (history.isEmpty()) {
+            throw new RuntimeException("История = null");
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("История поиска: \n\n");
+
+            for (Task historyItem : history) {
+                sb.append("Тип - ").append(historyItem.getClass().getSimpleName()).append("\n");
+                sb.append("Id - ").append(historyItem.getId()).append("\n");
+                sb.append("Title - ").append(historyItem.getTitle()).append("\n\n");
+            }
+            return sb.toString();
         }
     }
 }
