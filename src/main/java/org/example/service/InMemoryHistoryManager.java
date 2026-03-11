@@ -15,4 +15,13 @@ public class InMemoryHistoryManager {
     public void deleteFromHistory(Task task) {
         history.remove(task);
     }
+
+    public void getHistory() {
+        System.out.println("История поиска: " + "\n");
+        for (Task historyItem : history) {
+            System.out.println("Тип -" + historyItem.getClass().getSimpleName() + "\n");
+            System.out.println("Id - " + historyItem.getId() + "\n");
+            System.out.println("Title - " + historyItem.getTitle() + "\n");
+        }
+    }
 }
