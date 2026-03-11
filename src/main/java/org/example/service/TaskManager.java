@@ -5,6 +5,7 @@ import org.example.model.Subtask;
 import org.example.model.Task;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TaskManager {
 //    task
@@ -25,6 +26,7 @@ public interface TaskManager {
     List<Subtask> getSubtask();
     void deleteAllSubtask();
     Subtask getSubtaskById(int id);
+    Map<Integer, Subtask> getSubtaskByEpicId(int epicId);
     void addSubtask(Subtask subtask, int epicId);
     void editSubtask(Subtask subtask);
     void deleteSubtaskById(int id);

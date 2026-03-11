@@ -5,7 +5,6 @@ import org.example.model.Status;
 import org.example.model.Subtask;
 import org.example.model.Task;
 import org.example.service.TaskManagerImpl;
-import org.example.utils.HistoryManager;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -75,17 +74,15 @@ public class Main {
         System.out.println(manager1.getSubtaskById(2).toString());
 
         System.out.println("---------------");
-//        System.out.println(HistoryManager.HISTORY.getHistoryAsString());
-        System.out.println("---------------");
-
-
-        System.out.println("---------------");
         System.out.println(HistoryManager.HISTORY.getHistoryAsString());
         System.out.println("---------------");
+
+        manager1.getSubtask();
 
         manager1.deleteEpicById(1);
 //        manager1.deleteSubtaskById(1);
 //        manager1.deleteSubtaskById(2);
+        manager1.getSubtask();
 
         System.out.println("---------------");
         System.out.println(HistoryManager.HISTORY.getHistoryAsString());

@@ -9,10 +9,8 @@ public class Task {
     protected Status status;
 
     public Task(String title, String description) {
-        this.id = id;
         this.title = title;
         this.description = description;
-        this.status = status;
     }
 
     public String getTitle() {
@@ -64,6 +62,6 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, id, status);
+        return Objects.hash(id);
     }
 }
