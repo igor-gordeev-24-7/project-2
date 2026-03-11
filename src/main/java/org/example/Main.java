@@ -4,12 +4,16 @@ import org.example.model.Epic;
 import org.example.model.Status;
 import org.example.model.Subtask;
 import org.example.model.Task;
+import org.example.service.InMemoryHistoryManager;
 import org.example.service.TaskManagerImpl;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+    public static InMemoryHistoryManager inMemoryHistoryManager = InMemoryHistoryManager.getInstance();
+
     public static void main(String[] args) {
+
         TaskManagerImpl manager1 = new TaskManagerImpl();
 
         Task task1 = new Task("Задача-1", "Описание задачи 1");
@@ -50,7 +54,6 @@ public class Main {
         manager1.getTaskById(9);
         manager1.getTaskById(11);
         manager1.getTaskById(12);
-//        manager1.getHistoryAsString();
 
 
         Epic epic1 = new Epic("Epic-1", "Описание Epic 1");
@@ -74,7 +77,7 @@ public class Main {
         System.out.println(manager1.getSubtaskById(2).toString());
 
         System.out.println("---------------");
-        System.out.println(HistoryManager.HISTORY.getHistoryAsString());
+        System.out.println(inMemoryHistoryManager.getHistory());
         System.out.println("---------------");
 
         manager1.getSubtask();
@@ -85,7 +88,7 @@ public class Main {
         manager1.getSubtask();
 
         System.out.println("---------------");
-        System.out.println(HistoryManager.HISTORY.getHistoryAsString());
+        System.out.println(inMemoryHistoryManager.getHistory());
         System.out.println("---------------");
     }
 }
