@@ -28,7 +28,7 @@ public interface TaskManager {
     List<Subtask> getSubtask();
     void deleteAllSubtask();
     Subtask getSubtaskById(int id);
-    Map<Integer, Subtask> getSubtaskByEpicId(int epicId);
+    List<Subtask> getSubtaskByEpicId(int epicId);
     void addSubtask(Subtask subtask, int epicId);
     void editSubtask(Subtask subtask);
     void deleteSubtaskById(int id);
