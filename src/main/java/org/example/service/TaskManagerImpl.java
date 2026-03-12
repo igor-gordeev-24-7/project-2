@@ -95,15 +95,16 @@ public class TaskManagerImpl implements TaskManager {
             if (epicSubtaskIds.isEmpty()) {
                 System.out.println("Subtasks пустой");
                 return;
-            } else {
-                Status status = subtasks.get(epicSubtaskId).getStatus();
-                if (status != Status.NEW) {
-                    allNew = false;
-                }
-                if (status != Status.DONE) {
-                    allDone = false;
-                }
             }
+
+            Status status = subtasks.get(epicSubtaskId).getStatus();
+            if (status != Status.NEW) {
+                allNew = false;
+            }
+            if (status != Status.DONE) {
+                allDone = false;
+            }
+
         }
         if (allDone) {
             epic.setStatus(Status.DONE);
@@ -134,6 +135,7 @@ public class TaskManagerImpl implements TaskManager {
     public void addEpic(Epic epic) {
         epic.setId(Identify.INSTANCE.generateTaskId(epic));
         epic.setStatus(Status.NEW);
+        inMemoryHistoryManager.addToHistory(epic);
         epics.put(epic.getId(), epic);
     }
 
@@ -151,7 +153,6 @@ public class TaskManagerImpl implements TaskManager {
     @Override
     public void deleteEpicById(int epicId) {
         Epic epic = epics.get(epicId);
-        System.out.println("Получен epic " + epic + "\n");
         if (epic != null) {
             List<Integer> subtasksId = new ArrayList<>();
 
@@ -179,10 +180,6 @@ public class TaskManagerImpl implements TaskManager {
         if (subtasksFind.isEmpty()) {
             System.out.println("Список Subtask пуст");
 //            throw new RuntimeException("Список Subtask пуст");
-        } else {
-            System.out.println("---------");
-            System.out.println("Найдено подзадач: " + subtasksFind.size());
-            System.out.println("---------");
         }
 
         return subtasksFind;
@@ -218,15 +215,18 @@ public class TaskManagerImpl implements TaskManager {
     public void addSubtask(Subtask subtask, int epicId) {
         subtask.setId(Identify.INSTANCE.generateTaskId(subtask));
         subtask.setStatus(Status.NEW);
-        if (epics.containsKey(epicId)) {
-            subtask.setEpicId(epicId);
-            subtasks.put(subtask.getId(), subtask);
-            getEpicById(epicId).addSubtaskId(subtask.getId());
-            updateStatusEpic(epicId);
-        } else {
+
+        if (!epics.containsKey(epicId)) {
             throw new EpicNotFoundException(epicId);
         }
 
+        subtask.setEpicId(epicId);
+        subtasks.put(subtask.getId(), subtask);
+
+        Epic epic = epics.get(epicId);
+
+        epic.addSubtaskId(subtask.getId());
+        updateStatusEpic(epicId);
     }
 
     @Override
@@ -250,26 +250,19 @@ public class TaskManagerImpl implements TaskManager {
 
     @Override
     public void deleteSubtaskById(int id) {
-        Subtask subtaskForDel = subtasks.get(id);
-        if (subtaskForDel != null) {
-            System.out.println("____-_______");
-            System.out.println(subtaskForDel);
-            System.out.println("____-_______");
+        Subtask subtask = subtasks.get(id);
 
-            Epic epic = getEpicById(subtaskForDel.getEpicId());
-
-            epic.deleteSubtaskId(id);
-
-            inMemoryHistoryManager.deleteFromHistory(subtaskForDel);
-
-            updateStatusEpic(epic.getId());
-            subtasks.remove(id);
-
-        } else {
+        if (subtask == null) {
             throw new ItemNotFoundException("Subtask с таким id не найден");
         }
 
+        Epic epic = epics.get(subtask.getEpicId());
 
+        epic.deleteSubtaskId(id);
+
+        inMemoryHistoryManager.deleteFromHistory(subtask);
+
+        updateStatusEpic(epic.getId());
+        subtasks.remove(id);
     }
-
 }
