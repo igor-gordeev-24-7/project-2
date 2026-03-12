@@ -7,10 +7,10 @@ import java.util.Map;
 
 public enum Identify {
     INSTANCE;
-    private Map<String, Integer> identifier = new HashMap<>();
+    private Map<Class<?>, Integer> identifier = new HashMap<>();
 
     public Integer generateTaskId(Task task) {
-        String taskClass = task.getClass().getSimpleName();
+        Class<?> taskClass = task.getClass();
         if (identifier.containsKey(taskClass)) {
             Integer currentCount = identifier.get(taskClass);
             identifier.put(taskClass, currentCount + 1);
