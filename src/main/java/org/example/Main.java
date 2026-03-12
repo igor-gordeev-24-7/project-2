@@ -70,22 +70,17 @@ public class Main {
 
         subtask1.setStatus(Status.NEW);
         manager1.editSubtask(subtask1);
-        System.out.println(manager1.getSubtaskById(1).toString());
 
         subtask2.setStatus(Status.DONE);
         manager1.editSubtask(subtask2);
-        System.out.println(manager1.getSubtaskById(2).toString());
 
-        System.out.println("---------------");
-        System.out.println(inMemoryHistoryManager.getHistoryAsString());
-        System.out.println("---------------");
+//        System.out.println("---------------");
+//        System.out.println(inMemoryHistoryManager.getHistoryAsString());
+//        System.out.println("---------------");
 
-        manager1.getSubtask();
-
-//        manager1.deleteEpicById(1);
-        manager1.deleteSubtaskById(1);
-        manager1.deleteSubtaskById(2);
-        manager1.getSubtask();
+        manager1.deleteEpicById(1);
+//        manager1.deleteSubtaskById(1);
+//        manager1.deleteSubtaskById(2);
 
         System.out.println("---------------");
         System.out.println(inMemoryHistoryManager.getHistoryAsString());
