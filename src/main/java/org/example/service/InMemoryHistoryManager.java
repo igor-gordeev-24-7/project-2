@@ -5,7 +5,7 @@ import org.example.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryHistoryManager {
+public class InMemoryHistoryManager implements HistoryManager {
     private static InMemoryHistoryManager instance;
     private final List<Task> history = new ArrayList<>();
 
@@ -26,10 +26,15 @@ public class InMemoryHistoryManager {
     }
 
     public void deleteFromHistory(Task task) {
-        history.remove(task);
+        history.removeIf(t -> t.equals(task));
+        System.out.println("удален элемент - " + task.getTitle());
     }
 
-    public String getHistory() {
+    public List<Task> getHistory() {
+        return new ArrayList<>(history);
+    }
+
+    public String getHistoryAsString() {
         if (history.isEmpty()) {
             throw new RuntimeException("История = null");
         } else {
