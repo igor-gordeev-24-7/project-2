@@ -77,18 +77,18 @@ public class Main {
         System.out.println(manager1.getSubtaskById(2).toString());
 
         System.out.println("---------------");
-        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(inMemoryHistoryManager.getHistoryAsString());
         System.out.println("---------------");
 
         manager1.getSubtask();
 
-        manager1.deleteEpicById(1);
-//        manager1.deleteSubtaskById(1);
-//        manager1.deleteSubtaskById(2);
+//        manager1.deleteEpicById(1);
+        manager1.deleteSubtaskById(1);
+        manager1.deleteSubtaskById(2);
         manager1.getSubtask();
 
         System.out.println("---------------");
-        System.out.println(inMemoryHistoryManager.getHistory());
+        System.out.println(inMemoryHistoryManager.getHistoryAsString());
         System.out.println("---------------");
     }
 }
