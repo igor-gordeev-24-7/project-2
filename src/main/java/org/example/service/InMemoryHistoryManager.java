@@ -27,7 +27,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     public void deleteFromHistory(Task task) {
         history.removeIf(t -> t.equals(task));
-        System.out.println("удален элемент - " + task.getTitle());
     }
 
     public List<Task> getHistory() {
