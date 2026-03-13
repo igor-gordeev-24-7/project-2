@@ -29,6 +29,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         history.removeIf(t -> t.equals(task));
     }
 
+    public void deleteAllItemByClass(Class<?> itemClass) {
+        history.removeIf(item -> item.getClass() == itemClass);
+    }
+
     public List<Task> getHistory() {
         return new ArrayList<>(history);
     }
