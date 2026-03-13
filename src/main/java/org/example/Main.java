@@ -78,9 +78,13 @@ public class Main {
 //        System.out.println(inMemoryHistoryManager.getHistoryAsString());
 //        System.out.println("---------------");
 
-        manager1.deleteEpicById(1);
+//        manager1.deleteEpicById(1);
 //        manager1.deleteSubtaskById(1);
 //        manager1.deleteSubtaskById(2);
+
+
+        manager1.deleteAllEpic();
+
 
         System.out.println("---------------");
         System.out.println(inMemoryHistoryManager.getHistoryAsString());
