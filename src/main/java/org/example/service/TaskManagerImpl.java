@@ -130,7 +130,7 @@ public class TaskManagerImpl implements TaskManager {
         }
 
         for (Integer subtaskId : subtasksId) {
-            inMemoryHistoryManager.deleteFromHistory(subtasks.get(subtaskId));
+            inMemoryHistoryManager.removeFromHistory(subtaskId);
             subtasks.remove(subtaskId);
         }
 
