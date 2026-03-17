@@ -3,11 +3,27 @@ package org.example.service;
 import org.example.model.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private static InMemoryHistoryManager instance;
-    private final List<Task> history = new ArrayList<>();
+
+    private Node head;
+    private Node tail;
+
+    Map<Integer, Node> index = new HashMap<>();
+
+    private static class  Node{
+        Task data;
+        Node prev;
+        Node next;
+
+        Node(Task data){
+            this.data = data;
+        }
+    }
 
     public InMemoryHistoryManager() {
     }
@@ -21,35 +37,75 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
+    private void linkLast(Task task){
+        Node node = new Node(task);
+        if (tail == null) {
+            head = node;
+        } else {
+            node.prev = tail;
+            tail.next = node;
+        }
+        tail = node;
+        index.put(task.getId(), node);
+    }
+
+    private void removeNode(Node node){
+        if (node.prev != null) {
+            node.prev.next = node.next;
+        } else {
+            head = node.next;
+        }
+
+        if (node.next != null) {
+            node.next.prev = node.prev;
+        } else {
+            tail = node.prev;
+        }
+    }
+
     public void addToHistory(Task task) {
-        history.add(task);
+        if (task == null) {
+            return;
+        }
+        Node deletNode = index.remove(task.getId());
+        if (deletNode != null) {
+            removeNode(deletNode);
+        }
+        linkLast(task);
     }
 
-    public void deleteFromHistory(Task task) {
-        history.removeIf(t -> t.equals(task));
-    }
-
-    public void deleteAllItemByClass(Class<?> itemClass) {
-        history.removeIf(item -> item.getClass() == itemClass);
+    public void removeFromHistory(int id) {
+        Node node = index.remove(id);
+        if (node != null) {
+            removeNode(node);
+        }
     }
 
     public List<Task> getHistory() {
-        return new ArrayList<>(history);
+        List<Task> tasksList = new ArrayList<>();
+        Node currentNode = head;
+        while (currentNode != null) {
+            tasksList.add(currentNode.data);
+            currentNode = currentNode.next;
+        }
+        return tasksList;
     }
 
     public String getHistoryAsString() {
-        if (history.isEmpty()) {
-            throw new RuntimeException("История = null");
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append("История поиска: \n\n");
+        List<Task> tasksList = new ArrayList<>();
+        Node currentNode = head;
+        while (currentNode != null) {
+            tasksList.add(currentNode.data);
+            currentNode = currentNode.next;
+        }
 
-            for (Task historyItem : history) {
+        StringBuilder sb = new StringBuilder();
+        for (Task historyItem : tasksList) {
                 sb.append("Тип - ").append(historyItem.getClass().getSimpleName()).append("\n");
                 sb.append("Id - ").append(historyItem.getId()).append("\n");
                 sb.append("Title - ").append(historyItem.getTitle()).append("\n\n");
-            }
-            return sb.toString();
         }
+
+        return sb.toString();
     }
 }
