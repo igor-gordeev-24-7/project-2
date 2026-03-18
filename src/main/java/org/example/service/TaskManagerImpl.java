@@ -123,18 +123,20 @@ public class TaskManagerImpl implements TaskManager {
     @Override
     public void deleteAllEpic() {
         System.out.println("Все epic удалены");
-        List<Integer> subtasksId = new ArrayList<>();
+        List<Subtask> subtasksItems = new ArrayList<>();
+
+        List<Integer> epicsId = new ArrayList<>(epics.keySet());
 
         for (Subtask subtask : subtasks.values()) {
-            subtasksId.add(subtask.getId());
+            subtasksItems.add(subtask);
         }
 
-        for (Integer subtaskId : subtasksId) {
-            inMemoryHistoryManager.removeFromHistory(subtaskId);
-            subtasks.remove(subtaskId);
+        for (Subtask subtasksItem : subtasksItems) {
+            inMemoryHistoryManager.removeFromHistory(subtasksItem);
+            subtasks.remove(subtasksItem.getId());
         }
 
-        inMemoryHistoryManager.deleteAllItemByClass(Epic.class);
+        inMemoryHistoryManager.removeFromHistoryByClass(epicsId);
 
         subtasks.values().removeIf(subtask -> epics.containsKey(subtask.getEpicId()));
         epics.values().removeIf(epic -> subtasks.containsKey(epic.getId()));
@@ -152,7 +154,6 @@ public class TaskManagerImpl implements TaskManager {
     public void addEpic(Epic epic) {
         epic.setId(Identify.INSTANCE.generateTaskId(epic));
         epic.setStatus(Status.NEW);
-        inMemoryHistoryManager.addToHistory(epic);
         epics.put(epic.getId(), epic);
     }
 
@@ -180,12 +181,12 @@ public class TaskManagerImpl implements TaskManager {
             }
 
             for (Integer subtaskId : subtasksId) {
-                inMemoryHistoryManager.deleteFromHistory(subtasks.get(subtaskId));
+//                inMemoryHistoryManager.removeFromHistory(subtaskId);
                 subtasks.remove(subtaskId);
             }
 
             epics.remove(epicId);
-            inMemoryHistoryManager.deleteFromHistory(epic);
+//            inMemoryHistoryManager.removeFromHistory(epicId);
         }
     }
 
@@ -196,7 +197,7 @@ public class TaskManagerImpl implements TaskManager {
 
         if (subtasksFind.isEmpty()) {
             System.out.println("Список Subtask пуст");
-//            throw new RuntimeException("Список Subtask пуст");
+            throw new RuntimeException("Список Subtask пуст");
         }
 
         return subtasksFind;
@@ -206,7 +207,7 @@ public class TaskManagerImpl implements TaskManager {
     public void deleteAllSubtask() {
         System.out.println("Все subtask удалены");
         epics.values().removeIf(epic -> subtasks.containsKey(epic.getId()));
-        inMemoryHistoryManager.deleteAllItemByClass(Subtask.class);
+//        inMemoryHistoryManager.deleteAllItemByClass(Subtask.class);
         subtasks.clear();
     }
 
@@ -222,7 +223,7 @@ public class TaskManagerImpl implements TaskManager {
 
         epic.deleteSubtaskId(id);
 
-        inMemoryHistoryManager.deleteFromHistory(subtask);
+//        inMemoryHistoryManager.deleteFromHistory(subtask);
 
         updateStatusEpic(epic.getId());
         subtasks.remove(id);
@@ -230,8 +231,12 @@ public class TaskManagerImpl implements TaskManager {
 
 @Override
     public Subtask getSubtaskById(int id) {
-        inMemoryHistoryManager.addToHistory(subtasks.get(id));
-        return subtasks.get(id);
+        Subtask subtask = null;
+        if (subtasks.get(id) != null) {
+            inMemoryHistoryManager.addToHistory(subtasks.get(id));
+            subtask = subtasks.get(id);
+        }
+        return subtask;
     }
 
 
@@ -256,8 +261,6 @@ public class TaskManagerImpl implements TaskManager {
         if (!epics.containsKey(epicId)) {
             throw new EpicNotFoundException(epicId);
         }
-
-        inMemoryHistoryManager.addToHistory(subtask);
 
         subtask.setEpicId(epicId);
         subtasks.put(subtask.getId(), subtask);
