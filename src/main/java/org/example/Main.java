@@ -30,34 +30,35 @@ public class Main {
         Task task12 = new Task("Задача-12", "Описание задачи 12");
 
         manager1.addTask(task1);
-        manager1.addTask(task2);
-        manager1.addTask(task3);
-        manager1.addTask(task4);
-        manager1.addTask(task5);
-        manager1.addTask(task6);
-        manager1.addTask(task7);
-        manager1.addTask(task8);
-        manager1.addTask(task9);
-        manager1.addTask(task10);
-        manager1.addTask(task11);
-        manager1.addTask(task12);
+//        manager1.addTask(task2);
+//        manager1.addTask(task3);
+//        manager1.addTask(task4);
+//        manager1.addTask(task5);
+//        manager1.addTask(task6);
+//        manager1.addTask(task7);
+//        manager1.addTask(task8);
+//        manager1.addTask(task9);
+//        manager1.addTask(task10);
+//        manager1.addTask(task11);
+//        manager1.addTask(task12);
 //        System.out.println(manager1.getTasks());
 
         manager1.getTaskById(1);
-        manager1.getTaskById(2);
-        manager1.getTaskById(3);
-        manager1.getTaskById(4);
-        manager1.getTaskById(5);
-        manager1.getTaskById(6);
-        manager1.getTaskById(7);
-        manager1.getTaskById(8);
-        manager1.getTaskById(9);
-        manager1.getTaskById(11);
-        manager1.getTaskById(12);
-
+//        manager1.getTaskById(2);
+//        manager1.getTaskById(3);
+//        manager1.getTaskById(4);
+//        manager1.getTaskById(5);
+//        manager1.getTaskById(6);
+//        manager1.getTaskById(7);
+//        manager1.getTaskById(8);
+//        manager1.getTaskById(9);
+//        manager1.getTaskById(11);
+//        manager1.getTaskById(12);
 
         Epic epic1 = new Epic("Epic-1", "Описание Epic 1");
+
         manager1.addEpic(epic1);
+        manager1.getEpicById(epic1.getId());
 
         Subtask subtask1 = new Subtask("ПодЗадача-1", "Описание ПодЗадачи 1");
         Subtask subtask2 = new Subtask("ПодЗадача-2", "Описание ПодЗадачи 2");
@@ -71,23 +72,36 @@ public class Main {
         subtask1.setStatus(Status.NEW);
         manager1.editSubtask(subtask1);
 
-        subtask2.setStatus(Status.DONE);
-        manager1.editSubtask(subtask2);
+        System.out.println(manager1.getSubtaskById(1));
+        System.out.println(manager1.getSubtaskById(2));
+
+        System.out.println("---------------");
+        System.out.println(inMemoryHistoryManager.getHistoryAsString());
+        System.out.println("---------------");
+
+//        subtask2.setStatus(Status.DONE);
+//        manager1.editSubtask(subtask2);
 
 //        System.out.println("---------------");
 //        System.out.println(inMemoryHistoryManager.getHistoryAsString());
 //        System.out.println("---------------");
 
-//        manager1.deleteEpicById(1);
-//        manager1.deleteSubtaskById(1);
-//        manager1.deleteSubtaskById(2);
+        manager1.deleteTaskById(1);
 
 
         manager1.deleteAllEpic();
+//        manager1.deleteSubtaskById(1);
+//        manager1.deleteSubtaskById(2);
 
+//        manager1.deleteAllEpic();
+
+//        System.out.println(manager1.getEpic());
 
         System.out.println("---------------");
         System.out.println(inMemoryHistoryManager.getHistoryAsString());
         System.out.println("---------------");
+
+
     }
+
 }
