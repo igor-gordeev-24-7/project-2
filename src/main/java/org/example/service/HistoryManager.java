@@ -8,4 +8,8 @@ public interface HistoryManager {
 //    void deleteFromHistory(Task task);
 //    List<Task> getHistory();
 //    String getHistoryAsString();
+
+    void add(Task task);
+    void remove(int id);
+    List<Task> getHistory();
 }

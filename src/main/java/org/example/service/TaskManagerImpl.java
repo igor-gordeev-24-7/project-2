@@ -50,7 +50,7 @@ public class TaskManagerImpl implements TaskManager {
         if (task == null) {
             throw new TaskNotFoundException(id);
         }
-        inMemoryHistoryManager.addToHistory(task);
+        inMemoryHistoryManager.add(task);
         return task;
     }
 
@@ -132,11 +132,11 @@ public class TaskManagerImpl implements TaskManager {
         }
 
         for (Subtask subtasksItem : subtasksItems) {
-            inMemoryHistoryManager.removeFromHistory(subtasksItem);
+            inMemoryHistoryManager.removeFromHistory(subtasksItem, Subtask.class);
             subtasks.remove(subtasksItem.getId());
         }
 
-        inMemoryHistoryManager.removeFromHistoryByClass(epicsId);
+        inMemoryHistoryManager.removeFromHistory(epics.get(epicsId), Epic.class);
 
         subtasks.values().removeIf(subtask -> epics.containsKey(subtask.getEpicId()));
         epics.values().removeIf(epic -> subtasks.containsKey(epic.getId()));
@@ -146,7 +146,7 @@ public class TaskManagerImpl implements TaskManager {
 
     @Override
     public Epic getEpicById(int id) {
-        inMemoryHistoryManager.addToHistory(epics.get(id));
+        inMemoryHistoryManager.add(epics.get(id));
         return epics.get(id);
     }
 
@@ -180,13 +180,15 @@ public class TaskManagerImpl implements TaskManager {
                 }
             }
 
-            for (Integer subtaskId : subtasksId) {
-//                inMemoryHistoryManager.removeFromHistory(subtaskId);
-                subtasks.remove(subtaskId);
+            if (!subtasksId.isEmpty()) {
+                for (Integer subtaskId : subtasksId) {
+                    inMemoryHistoryManager.removeFromHistory(subtasks.get(subtaskId), Subtask.class);
+                    subtasks.remove(subtaskId);
+                }
             }
 
+            inMemoryHistoryManager.removeFromHistory(epics.get(epicId), Epic.class);
             epics.remove(epicId);
-//            inMemoryHistoryManager.removeFromHistory(epicId);
         }
     }
 
@@ -197,7 +199,7 @@ public class TaskManagerImpl implements TaskManager {
 
         if (subtasksFind.isEmpty()) {
             System.out.println("Список Subtask пуст");
-            throw new RuntimeException("Список Subtask пуст");
+//            throw new RuntimeException("Список Subtask пуст");
         }
 
         return subtasksFind;
@@ -233,7 +235,7 @@ public class TaskManagerImpl implements TaskManager {
     public Subtask getSubtaskById(int id) {
         Subtask subtask = null;
         if (subtasks.get(id) != null) {
-            inMemoryHistoryManager.addToHistory(subtasks.get(id));
+            inMemoryHistoryManager.add(subtasks.get(id));
             subtask = subtasks.get(id);
         }
         return subtask;

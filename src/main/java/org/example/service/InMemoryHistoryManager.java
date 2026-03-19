@@ -17,11 +17,13 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private static class  Node{
         Task data;
+//        Class<?> dataClass;
         Node prev;
         Node next;
 
         Node(Task data){
             this.data = data;
+//            this.dataClass = data.getClass();
         }
     }
 
@@ -49,7 +51,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         index.put(task.getId(), node);
     }
 
-    private void removeNode(Node node){
+    private void removeNode(Node node) {
         if (node.prev != null) {
             node.prev.next = node.next;
         } else {
@@ -63,10 +65,12 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    public void addToHistory(Task task) {
+    @Override
+    public void add(Task task) {
         if (task == null) {
             return;
         }
+
         Node node = index.remove(task.getId());
         if (node != null) {
             removeNode(node);
@@ -76,29 +80,34 @@ public class InMemoryHistoryManager implements HistoryManager {
         linkLast(task);
     }
 
-    public void removeFromHistory(Task task) {
+    public void removeFromHistory(Task task, Class<?> taskClass) {
         Node node = index.remove(task.getId());
         if (node != null) {
+            index.remove(task.getId());
             removeNode(node);
         }
     }
 
 
-    public void removeFromHistoryByClass(List<Integer> epicsId) {
-        for (Integer epicId : epicsId) {
-            System.out.println("Эпик для удаления: " + epicId);
-            System.out.println("+++++++++");
-            System.out.println(getHistory());
-            Node node = index.remove(epicId);
-            System.out.println("+++++++++");
-            System.out.println(getHistory());
-
-            if (node != null) {
-                System.out.println(node);
-                removeNode(node);
-            }
-        }
-    }
+//    public void removeFromHistoryByClass(List<Integer> epicsId) {
+//        for (Integer epicId : epicsId) {
+//
+//            System.out.println("Эпик для удаления: " + epicId);
+//
+//            System.out.println("+++++++++");
+//            System.out.println(getHistory());
+//
+//            Node node = index.remove(epicId);
+//
+//            System.out.println("+++++++++");
+//            System.out.println(getHistory());
+//
+//            if (node != null) {
+//                System.out.println(node);
+//                removeNode(node);
+//            }
+//        }
+//    }
 
     public List<Task> getHistory() {
         List<Task> tasksList = new ArrayList<>();

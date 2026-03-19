@@ -13,7 +13,7 @@ public interface TaskManager {
 //    task
     List<Task> getTasks();
     void deleteAllTasks();
-    Task getTaskById(int id);
+    Task getTaskById(int id) throws Exception;
     void addTask(Task task);
     void editTask(Task task);
     void deleteTaskById(int id);
