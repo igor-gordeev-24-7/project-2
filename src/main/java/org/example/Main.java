@@ -43,7 +43,7 @@ public class Main {
 //        manager1.addTask(task12);
 //        System.out.println(manager1.getTasks());
 
-        manager1.getTaskById(1);
+        manager1.getTaskById(task1.getId());
 //        manager1.getTaskById(2);
 //        manager1.getTaskById(3);
 //        manager1.getTaskById(4);
@@ -54,6 +54,8 @@ public class Main {
 //        manager1.getTaskById(9);
 //        manager1.getTaskById(11);
 //        manager1.getTaskById(12);
+
+//        manager1.deleteTaskById(task1.getId());
 
         Epic epic1 = new Epic("Epic-1", "Описание Epic 1");
 
@@ -92,17 +94,15 @@ public class Main {
 //        manager1.deleteSubtaskById(1);
 //        manager1.deleteSubtaskById(2);
 
-        manager1.deleteEpicById(epic1.getId());
+//        manager1.deleteEpicById(epic1.getId());
 
         System.out.println("---------------");
-        System.out.println(inMemoryHistoryManager.getHistoryAsString());
+        System.out.println(inMemoryHistoryManager.getHistory());
         System.out.println("---------------");
 
 //        System.out.println(manager1.getTasks());
 //        System.out.println(manager1.getSubtask());
 //        System.out.println(manager1.getEpic());
-
-
 
     }
 
