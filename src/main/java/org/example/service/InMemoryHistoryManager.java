@@ -17,13 +17,11 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private static class  Node{
         Task data;
-//        Class<?> dataClass;
         Node prev;
         Node next;
 
         Node(Task data){
             this.data = data;
-//            this.dataClass = data.getClass();
         }
     }
 
@@ -80,7 +78,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         linkLast(task);
     }
 
-    public void removeFromHistory(Task task, Class<?> taskClass) {
+    @Override
+    public void remove(Task task) {
         Node node = index.remove(task.getId());
         if (node != null) {
             index.remove(task.getId());
@@ -88,27 +87,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-
-//    public void removeFromHistoryByClass(List<Integer> epicsId) {
-//        for (Integer epicId : epicsId) {
-//
-//            System.out.println("Эпик для удаления: " + epicId);
-//
-//            System.out.println("+++++++++");
-//            System.out.println(getHistory());
-//
-//            Node node = index.remove(epicId);
-//
-//            System.out.println("+++++++++");
-//            System.out.println(getHistory());
-//
-//            if (node != null) {
-//                System.out.println(node);
-//                removeNode(node);
-//            }
-//        }
-//    }
-
+    @Override
     public List<Task> getHistory() {
         List<Task> tasksList = new ArrayList<>();
         Node currentNode = head;
@@ -117,23 +96,5 @@ public class InMemoryHistoryManager implements HistoryManager {
             currentNode = currentNode.next;
         }
         return tasksList;
-    }
-
-    public String getHistoryAsString() {
-        List<Task> tasksList = new ArrayList<>();
-        Node currentNode = head;
-        while (currentNode != null) {
-            tasksList.add(currentNode.data);
-            currentNode = currentNode.next;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (Task historyItem : tasksList) {
-                sb.append("Тип - ").append(historyItem.getClass().getSimpleName()).append("\n");
-                sb.append("Id - ").append(historyItem.getId()).append("\n");
-                sb.append("Title - ").append(historyItem.getTitle()).append("\n\n");
-        }
-
-        return sb.toString();
     }
 }
