@@ -70,6 +70,7 @@ public class TaskManagerImpl implements TaskManager {
 
     @Override
     public void deleteTaskById(int id) {
+        inMemoryHistoryManager.remove(tasks.get(id));
         tasks.remove(id);
     }
 
@@ -132,11 +133,11 @@ public class TaskManagerImpl implements TaskManager {
         }
 
         for (Subtask subtasksItem : subtasksItems) {
-            inMemoryHistoryManager.removeFromHistory(subtasksItem, Subtask.class);
+            inMemoryHistoryManager.remove(subtasksItem);
             subtasks.remove(subtasksItem.getId());
         }
 
-        inMemoryHistoryManager.removeFromHistory(epics.get(epicsId), Epic.class);
+        inMemoryHistoryManager.remove(epics.get(epicsId));
 
         subtasks.values().removeIf(subtask -> epics.containsKey(subtask.getEpicId()));
         epics.values().removeIf(epic -> subtasks.containsKey(epic.getId()));
@@ -182,12 +183,12 @@ public class TaskManagerImpl implements TaskManager {
 
             if (!subtasksId.isEmpty()) {
                 for (Integer subtaskId : subtasksId) {
-                    inMemoryHistoryManager.removeFromHistory(subtasks.get(subtaskId), Subtask.class);
+                    inMemoryHistoryManager.remove(subtasks.get(subtaskId));
                     subtasks.remove(subtaskId);
                 }
             }
 
-            inMemoryHistoryManager.removeFromHistory(epics.get(epicId), Epic.class);
+            inMemoryHistoryManager.remove(epics.get(epicId));
             epics.remove(epicId);
         }
     }
